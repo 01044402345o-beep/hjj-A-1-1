@@ -102,6 +102,13 @@ DEFAULT_PROMPTS = [
     },
 ]
 
+# ------------------------------------------------------- 순수 필터 함수
+
+def filter_by_category(prompts, category):
+    """지정한 카테고리의 프롬프트만 원래 순서대로 반환한다."""
+    return [prompt for prompt in prompts if prompt["category"] == category]
+
+
 # ------------------------------------------------------------ 화면 출력
 
 def show_menu():
@@ -191,6 +198,16 @@ def show_list(prompts):
     print_prompt_list(prompts, "등록된 프롬프트가 없습니다.")
 
 
+def show_by_category(prompts):
+    """카테고리를 선택받아 해당 프롬프트만 출력한다."""
+    print("\n=== 카테고리별 조회 ===")
+    category = choose_category()
+    items = filter_by_category(prompts, category)
+
+    print(f"\n[{category}] 카테고리 프롬프트:")
+    print_prompt_list(items, "해당 카테고리에 등록된 프롬프트가 없습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -207,7 +224,9 @@ def main():
             add_prompt(prompts)
         elif choice == "2":
             show_list(prompts)
-        elif choice in {"3", "4", "5", "6", "7", "8", "9", "10"}:
+        elif choice == "3":
+            show_by_category(prompts)
+        elif choice in {"4", "5", "6", "7", "8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
