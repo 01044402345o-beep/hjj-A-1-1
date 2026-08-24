@@ -277,6 +277,23 @@ def show_detail(prompts):
     print(line)
 
 
+def toggle_favorite(prompts):
+    """프롬프트의 즐겨찾기 상태를 반전시킨다."""
+    print("\n=== 즐겨찾기 관리 ===")
+    print("(번호는 '프롬프트 목록' 기준입니다)")
+    index = pick_prompt_index(prompts)
+    if index is None:
+        return
+
+    prompt = prompts[index]
+    prompt["favorite"] = not prompt["favorite"]
+
+    if prompt["favorite"]:
+        print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에 추가했습니다!")
+    else:
+        print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에서 해제했습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -299,7 +316,9 @@ def main():
             search_prompt(prompts)
         elif choice == "5":
             show_detail(prompts)
-        elif choice in {"6", "7", "8", "9", "10"}:
+        elif choice == "6":
+            toggle_favorite(prompts)
+        elif choice in {"7", "8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
