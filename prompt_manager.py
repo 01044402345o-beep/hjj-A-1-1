@@ -100,3 +100,38 @@ DEFAULT_PROMPTS = [
         "favorite": False,
     },
 ]
+
+# ------------------------------------------------------------ 화면 출력
+
+def show_menu():
+    """메뉴를 출력한다."""
+    print("\n=== 나만의 프롬프트 관리 ===")
+    print("1. 프롬프트 추가")
+    print("2. 프롬프트 목록")
+    print("3. 카테고리별 조회")
+    print("4. 프롬프트 검색")
+    print("5. 프롬프트 상세 보기")
+    print("6. 즐겨찾기 관리")
+    print("7. 즐겨찾기 목록")
+    print("8. JSON 파일로 저장")
+    print("9. JSON 파일에서 불러오기")
+    print("10. Markdown으로 내보내기")
+    print("0. 종료")
+
+
+# ------------------------------------------------------------- 진입점
+
+def main():
+    """메뉴 루프를 실행한다."""
+    prompts = [dict(prompt) for prompt in DEFAULT_PROMPTS]
+    while True:
+        show_menu()
+        choice = input("선택: ").strip()
+        if choice == "0":
+            print("프로그램을 종료합니다.")
+            break
+        print(f"(아직 구현되지 않은 기능입니다: {choice})")
+
+
+if __name__ == "__main__":
+    main()
