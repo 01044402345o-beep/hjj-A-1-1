@@ -154,14 +154,17 @@ def print_prompt_line(number, prompt):
     print(f"{number}. [{prompt['category']}] {prompt['title']}{star(prompt)}")
 
 
-def print_prompt_list(items, empty_message):
-    """프롬프트 목록과 총 개수를 출력한다."""
+def print_prompt_list(items, empty_message, summary="총 {count}개의 프롬프트"):
+    """프롬프트 목록과 요약 줄을 출력한다.
+
+    summary의 {count}가 실제 개수로 치환된다.
+    """
     if not items:
         print(empty_message)
         return
     for number, prompt in enumerate(items, start=1):
         print_prompt_line(number, prompt)
-    print(f"\n총 {len(items)}개의 프롬프트")
+    print(f"\n{summary.format(count=len(items))}")
 
 
 # ------------------------------------------------------------ 입력 헬퍼
@@ -253,14 +256,13 @@ def search_prompt(prompts):
     keyword = input_nonempty("검색어: ")
     items = filter_by_keyword(prompts, keyword)
 
-    if not items:
-        print("\n검색 결과가 없습니다.")
-        return
-
-    print("\n검색 결과:")
-    for number, prompt in enumerate(items, start=1):
-        print_prompt_line(number, prompt)
-    print(f"\n{len(items)}개의 프롬프트를 찾았습니다.")
+    if items:
+        print("\n검색 결과:")
+    print_prompt_list(
+        items,
+        "\n검색 결과가 없습니다.",
+        summary="{count}개의 프롬프트를 찾았습니다.",
+    )
 
 
 def show_detail(prompts):
@@ -302,15 +304,11 @@ def toggle_favorite(prompts):
 def show_favorites(prompts):
     """즐겨찾기된 프롬프트만 출력한다."""
     print("\n=== 즐겨찾기 목록 ===")
-    items = filter_favorites(prompts)
-
-    if not items:
-        print("즐겨찾기된 프롬프트가 없습니다.")
-        return
-
-    for number, prompt in enumerate(items, start=1):
-        print_prompt_line(number, prompt)
-    print(f"\n총 {len(items)}개의 즐겨찾기")
+    print_prompt_list(
+        filter_favorites(prompts),
+        "즐겨찾기된 프롬프트가 없습니다.",
+        summary="총 {count}개의 즐겨찾기",
+    )
 
 
 # --------------------------------------------------- 보너스: 파일 입출력
