@@ -347,6 +347,40 @@ def load_from_json(prompts):
     print(f"{len(prompts)}개의 프롬프트를 불러왔습니다.")
 
 
+def safe_filename(name):
+    """파일 이름에 쓸 수 없는 문자를 밑줄로 바꾼다."""
+    for char in r'\/:*?"<>| ':
+        name = name.replace(char, "_")
+    return name
+
+
+def export_markdown(prompts):
+    """프롬프트를 카테고리별 Markdown 파일로 내보낸다."""
+    print("\n=== Markdown으로 내보내기 ===")
+    if not prompts:
+        print("내보낼 프롬프트가 없습니다.")
+        return
+
+    os.makedirs(EXPORT_DIR, exist_ok=True)
+
+    categories = []
+    for prompt in prompts:
+        if prompt["category"] not in categories:
+            categories.append(prompt["category"])
+
+    for category in categories:
+        items = filter_by_category(prompts, category)
+        path = os.path.join(EXPORT_DIR, f"{safe_filename(category)}.md")
+        with open(path, "w", encoding="utf-8") as file:
+            file.write(f"# {category}\n\n")
+            for prompt in items:
+                file.write(f"## {prompt['title']}{star(prompt)}\n\n")
+                file.write(f"{prompt['content']}\n\n")
+        print(f"- {path} ({len(items)}개)")
+
+    print(f"\n{len(categories)}개 카테고리를 내보냈습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -378,7 +412,7 @@ def main():
         elif choice == "9":
             load_from_json(prompts)
         elif choice == "10":
-            print(f"(아직 구현되지 않은 기능입니다: {choice})")
+            export_markdown(prompts)
         else:
             print("올바른 번호를 입력해주세요.")
 
