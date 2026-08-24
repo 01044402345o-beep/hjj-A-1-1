@@ -91,5 +91,38 @@ class TestFilterFavorites(unittest.TestCase):
         self.assertEqual([], pm.filter_favorites([]))
 
 
+class TestPromptShape(unittest.TestCase):
+    def test_default_prompts_have_six_items(self):
+        self.assertEqual(6, len(pm.DEFAULT_PROMPTS))
+
+    def test_default_prompts_cover_all_categories(self):
+        used = {p["category"] for p in pm.DEFAULT_PROMPTS}
+        self.assertEqual(set(pm.CATEGORIES), used)
+
+    def test_every_prompt_has_required_keys(self):
+        for prompt in pm.DEFAULT_PROMPTS:
+            self.assertEqual(
+                {"title", "content", "category", "favorite"}, set(prompt)
+            )
+
+    def test_favorite_is_boolean(self):
+        for prompt in pm.DEFAULT_PROMPTS:
+            self.assertIsInstance(prompt["favorite"], bool)
+
+
+class TestToggleLogic(unittest.TestCase):
+    def test_toggling_twice_restores_state(self):
+        prompt = make_prompt("A", favorite=False)
+        prompt["favorite"] = not prompt["favorite"]
+        prompt["favorite"] = not prompt["favorite"]
+        self.assertFalse(prompt["favorite"])
+
+    def test_toggle_changes_favorites_filter_result(self):
+        prompts = [make_prompt("A"), make_prompt("B")]
+        self.assertEqual([], pm.filter_favorites(prompts))
+        prompts[1]["favorite"] = True
+        self.assertEqual(["B"], [p["title"] for p in pm.filter_favorites(prompts)])
+
+
 if __name__ == "__main__":
     unittest.main()
