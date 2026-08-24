@@ -119,6 +119,26 @@ def show_menu():
     print("0. 종료")
 
 
+def star(prompt):
+    """즐겨찾기면 별 표시를 반환한다."""
+    return " ⭐" if prompt["favorite"] else ""
+
+
+def print_prompt_line(number, prompt):
+    """프롬프트 한 줄을 '번호. [카테고리] 제목 ⭐' 형식으로 출력한다."""
+    print(f"{number}. [{prompt['category']}] {prompt['title']}{star(prompt)}")
+
+
+def print_prompt_list(items, empty_message):
+    """프롬프트 목록과 총 개수를 출력한다."""
+    if not items:
+        print(empty_message)
+        return
+    for number, prompt in enumerate(items, start=1):
+        print_prompt_line(number, prompt)
+    print(f"\n총 {len(items)}개의 프롬프트")
+
+
 # ------------------------------------------------------------ 입력 헬퍼
 
 def input_nonempty(label):
@@ -164,6 +184,12 @@ def add_prompt(prompts):
     print("\n프롬프트가 추가되었습니다!")
 
 
+def show_list(prompts):
+    """저장된 모든 프롬프트를 출력한다."""
+    print("\n=== 프롬프트 목록 ===")
+    print_prompt_list(prompts, "등록된 프롬프트가 없습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -178,7 +204,9 @@ def main():
             break
         elif choice == "1":
             add_prompt(prompts)
-        elif choice in {"2", "3", "4", "5", "6", "7", "8", "9", "10"}:
+        elif choice == "2":
+            show_list(prompts)
+        elif choice in {"3", "4", "5", "6", "7", "8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
