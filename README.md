@@ -25,6 +25,7 @@ GenAI 프롬프트를 카테고리별로 정리하고, 키워드로 검색하고
 - [실행 화면](#실행-화면)
 - [Git 작업 기록](#git-작업-기록)
 - [사용한 Git 명령 정리](#사용한-git-명령-정리)
+- [git clone 실행 결과](#git-clone-실행-결과)
 - [개발 중 해결한 문제](#개발-중-해결한-문제)
 
 ## 개발 환경
@@ -369,7 +370,8 @@ hjj-A-1-1/
 ├── README.md
 ├── .gitignore
 ├── docs/
-│   └── screenshots/    # 개발 환경·실행 결과·Git 기록 캡처
+│   ├── screenshots/    # 개발 환경·실행 결과·Git 기록 캡처
+│   └── clone-result.md # 공개 샘플 저장소 clone 실행 기록
 ├── data/               # 실행 시 생성. JSON 저장 위치 (git 추적 제외)
 └── export/             # 실행 시 생성. Markdown 출력 위치 (git 추적 제외)
 ```
@@ -610,6 +612,47 @@ git merge --no-ff feature/prompt-list -m "merge: feature/prompt-list 병합"
 git push
 git pull
 ```
+
+## git clone 실행 결과
+
+`clone`은 커밋 히스토리에 흔적이 남지 않으므로, 공개 샘플 저장소를 받아 확인한 기록을
+따로 남겼습니다. 대상은 GitHub 공식 샘플인
+[octocat/Hello-World](https://github.com/octocat/Hello-World)입니다.
+
+```powershell
+cd C:\Test
+git clone https://github.com/octocat/Hello-World.git clone-test
+```
+
+```
+Cloning into 'clone-test'...
+remote: Enumerating objects: 13, done.
+remote: Total 13 (delta 0), reused 0 (delta 0), pack-reused 13 (from 1)
+Receiving objects: 100% (13/13), done.
+```
+
+받은 폴더의 구조와 로그:
+
+```powershell
+cd clone-test
+Get-ChildItem -Force     # .git 폴더와 README 파일
+git log --oneline --graph
+```
+
+```
+*   7fd1a60 Merge pull request #6 from Spaceghost/patch-1
+|\
+| * 7629413 New line at end of file. --Signed off by Spaceghost
+|/
+* 553c207 first commit
+```
+
+`.git` 폴더가 함께 온다는 점이 핵심입니다. ZIP 다운로드는 특정 시점의 파일만 주지만
+`clone`은 **커밋 히스토리 전체를 통째로** 복제합니다. 그래서 받은 직후부터 `git log`나
+`git checkout`을 그대로 쓸 수 있고, 원격 주소도 `origin`으로 자동 등록됩니다.
+
+폴더 구조·로그·원격 주소·브랜치 목록까지 전체 확인 과정은
+**[docs/clone-result.md](docs/clone-result.md)** 에 정리했습니다.
 
 ## 개발 중 해결한 문제
 
