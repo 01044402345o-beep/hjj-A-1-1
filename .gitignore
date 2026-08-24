@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# 실행 산출물
+data/
+export/
