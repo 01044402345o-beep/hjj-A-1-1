@@ -7,9 +7,10 @@ import json
 import os
 import sys
 
-# Windows 콘솔의 기본 인코딩(cp949)에서는 별표(⭐) 출력이 오류를 일으킨다.
-# 표준 출력을 UTF-8로 다시 설정해 어떤 터미널에서도 깨지지 않게 한다.
+# Windows 콘솔의 기본 인코딩(cp949)에서는 별표(⭐) 출력이 오류를 일으키고,
+# 파이프로 넘어온 한글 입력도 깨진다. 입출력을 모두 UTF-8로 다시 설정한다.
 sys.stdout.reconfigure(encoding="utf-8")
+sys.stdin.reconfigure(encoding="utf-8")
 
 # ---------------------------------------------------------------- 상수
 
