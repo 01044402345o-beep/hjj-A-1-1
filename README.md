@@ -476,8 +476,11 @@ Python 3.14.4, Git 2.55.0, `user.name` / `user.email`, `init.defaultbranch=main`
 
 ### 3. Git 커밋 그래프
 
-`git log --oneline --graph --all` 출력입니다. `feature/prompt-list`와
-`feature/persistence` 두 브랜치가 `--no-ff`로 병합되어 `|\ … |/` 갈래가 남아 있습니다.
+`git log --oneline --graph` 출력입니다. 최초 커밋 `62516f6`부터 최신 커밋까지
+전체 히스토리가 담겨 있습니다. `feature/prompt-list`와 `feature/persistence` 두
+브랜치가 `--no-ff`로 병합되어 `|\ … |/` 갈래가 그대로 남아 있습니다.
+
+왼쪽 소스 제어 패널의 그래프에서도 같은 브랜치 구조를 확인할 수 있습니다.
 
 ![Git 커밋 그래프](docs/screenshots/03-git-log-graph.jpg)
 
