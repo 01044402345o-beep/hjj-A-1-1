@@ -73,5 +73,23 @@ class TestFilterByKeyword(unittest.TestCase):
         self.assertEqual([], pm.filter_by_keyword(self.prompts, "   "))
 
 
+class TestFilterFavorites(unittest.TestCase):
+    def test_returns_only_favorites(self):
+        prompts = [
+            make_prompt("A", favorite=True),
+            make_prompt("B", favorite=False),
+            make_prompt("C", favorite=True),
+        ]
+        result = pm.filter_favorites(prompts)
+        self.assertEqual(["A", "C"], [p["title"] for p in result])
+
+    def test_returns_empty_when_none_favorited(self):
+        prompts = [make_prompt("A"), make_prompt("B")]
+        self.assertEqual([], pm.filter_favorites(prompts))
+
+    def test_returns_empty_for_empty_input(self):
+        self.assertEqual([], pm.filter_favorites([]))
+
+
 if __name__ == "__main__":
     unittest.main()

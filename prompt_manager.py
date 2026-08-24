@@ -121,6 +121,11 @@ def filter_by_keyword(prompts, keyword):
     ]
 
 
+def filter_favorites(prompts):
+    """즐겨찾기로 지정된 프롬프트만 반환한다."""
+    return [prompt for prompt in prompts if prompt["favorite"]]
+
+
 # ------------------------------------------------------------ 화면 출력
 
 def show_menu():
@@ -294,6 +299,20 @@ def toggle_favorite(prompts):
         print(f"'{prompt['title']}' 프롬프트를 즐겨찾기에서 해제했습니다.")
 
 
+def show_favorites(prompts):
+    """즐겨찾기된 프롬프트만 출력한다."""
+    print("\n=== 즐겨찾기 목록 ===")
+    items = filter_favorites(prompts)
+
+    if not items:
+        print("즐겨찾기된 프롬프트가 없습니다.")
+        return
+
+    for number, prompt in enumerate(items, start=1):
+        print_prompt_line(number, prompt)
+    print(f"\n총 {len(items)}개의 즐겨찾기")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -318,7 +337,9 @@ def main():
             show_detail(prompts)
         elif choice == "6":
             toggle_favorite(prompts)
-        elif choice in {"7", "8", "9", "10"}:
+        elif choice == "7":
+            show_favorites(prompts)
+        elif choice in {"8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
