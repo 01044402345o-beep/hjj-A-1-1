@@ -127,10 +127,14 @@ def main():
     while True:
         show_menu()
         choice = input("선택: ").strip()
+
         if choice == "0":
             print("프로그램을 종료합니다.")
             break
-        print(f"(아직 구현되지 않은 기능입니다: {choice})")
+        elif choice in {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}:
+            print(f"(아직 구현되지 않은 기능입니다: {choice})")
+        else:
+            print("올바른 번호를 입력해주세요.")
 
 
 if __name__ == "__main__":
