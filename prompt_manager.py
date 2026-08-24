@@ -109,6 +109,18 @@ def filter_by_category(prompts, category):
     return [prompt for prompt in prompts if prompt["category"] == category]
 
 
+def filter_by_keyword(prompts, keyword):
+    """제목 또는 내용에 키워드가 포함된 프롬프트를 반환한다 (대소문자 무시)."""
+    key = keyword.strip().lower()
+    if not key:
+        return []
+    return [
+        prompt
+        for prompt in prompts
+        if key in prompt["title"].lower() or key in prompt["content"].lower()
+    ]
+
+
 # ------------------------------------------------------------ 화면 출력
 
 def show_menu():
@@ -208,6 +220,22 @@ def show_by_category(prompts):
     print_prompt_list(items, "해당 카테고리에 등록된 프롬프트가 없습니다.")
 
 
+def search_prompt(prompts):
+    """키워드로 프롬프트를 검색한다."""
+    print("\n=== 프롬프트 검색 ===")
+    keyword = input_nonempty("검색어: ")
+    items = filter_by_keyword(prompts, keyword)
+
+    if not items:
+        print("\n검색 결과가 없습니다.")
+        return
+
+    print("\n검색 결과:")
+    for number, prompt in enumerate(items, start=1):
+        print_prompt_line(number, prompt)
+    print(f"\n{len(items)}개의 프롬프트를 찾았습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -226,7 +254,9 @@ def main():
             show_list(prompts)
         elif choice == "3":
             show_by_category(prompts)
-        elif choice in {"4", "5", "6", "7", "8", "9", "10"}:
+        elif choice == "4":
+            search_prompt(prompts)
+        elif choice in {"5", "6", "7", "8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")

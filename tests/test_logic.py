@@ -42,5 +42,36 @@ class TestFilterByCategory(unittest.TestCase):
         self.assertEqual(3, len(self.prompts))
 
 
+class TestFilterByKeyword(unittest.TestCase):
+    def setUp(self):
+        self.prompts = [
+            make_prompt("블로그 글 작성", content="SEO 최적화"),
+            make_prompt("썸네일 생성", content="미니멀 스타일"),
+            make_prompt("요약 도우미", content="블로그 본문을 요약"),
+        ]
+
+    def test_matches_title(self):
+        result = pm.filter_by_keyword(self.prompts, "썸네일")
+        self.assertEqual(["썸네일 생성"], [p["title"] for p in result])
+
+    def test_matches_content(self):
+        result = pm.filter_by_keyword(self.prompts, "미니멀")
+        self.assertEqual(["썸네일 생성"], [p["title"] for p in result])
+
+    def test_matches_title_or_content(self):
+        result = pm.filter_by_keyword(self.prompts, "블로그")
+        self.assertEqual(["블로그 글 작성", "요약 도우미"], [p["title"] for p in result])
+
+    def test_is_case_insensitive(self):
+        result = pm.filter_by_keyword(self.prompts, "seo")
+        self.assertEqual(["블로그 글 작성"], [p["title"] for p in result])
+
+    def test_returns_empty_for_no_match(self):
+        self.assertEqual([], pm.filter_by_keyword(self.prompts, "존재하지않음"))
+
+    def test_returns_empty_for_blank_keyword(self):
+        self.assertEqual([], pm.filter_by_keyword(self.prompts, "   "))
+
+
 if __name__ == "__main__":
     unittest.main()
