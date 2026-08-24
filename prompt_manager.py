@@ -119,13 +119,23 @@ def show_menu():
     print("0. 종료")
 
 
+def star(prompt):
+    """즐겨찾기면 별 표시를 반환한다."""
+    return " ⭐" if prompt["favorite"] else ""
+
+
+def print_prompt_line(number, prompt):
+    """프롬프트 한 줄을 '번호. [카테고리] 제목 ⭐' 형식으로 출력한다."""
+    print(f"{number}. [{prompt['category']}] {prompt['title']}{star(prompt)}")
+
+
 def print_prompt_list(items, empty_message):
     """프롬프트 목록과 총 개수를 출력한다."""
     if not items:
         print(empty_message)
         return
     for number, prompt in enumerate(items, start=1):
-        print(f"{number}. [{prompt['category']}] {prompt['title']}")
+        print_prompt_line(number, prompt)
     print(f"\n총 {len(items)}개의 프롬프트")
 
 
