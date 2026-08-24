@@ -22,6 +22,7 @@ GenAI 프롬프트를 카테고리별로 정리하고, 키워드로 검색하고
 - [프로젝트 구조](#프로젝트-구조)
 - [코드 구조](#코드-구조)
 - [테스트](#테스트)
+- [실행 화면](#실행-화면)
 - [Git 작업 기록](#git-작업-기록)
 - [사용한 Git 명령 정리](#사용한-git-명령-정리)
 - [개발 중 해결한 문제](#개발-중-해결한-문제)
@@ -367,6 +368,8 @@ hjj-A-1-1/
 │   └── test_logic.py   # 순수 로직 함수 단위 테스트 (19개)
 ├── README.md
 ├── .gitignore
+├── docs/
+│   └── screenshots/    # 개발 환경·실행 결과·Git 기록 캡처
 ├── data/               # 실행 시 생성. JSON 저장 위치 (git 추적 제외)
 └── export/             # 실행 시 생성. Markdown 출력 위치 (git 추적 제외)
 ```
@@ -453,6 +456,36 @@ OK
 | `TestFilterFavorites` | 즐겨찾기만 반환, 하나도 없을 때, 빈 리스트 |
 | `TestPromptShape` | 기본 프롬프트 6개, 카테고리 전부 커버, 필수 키 4개, `favorite`이 `bool` |
 | `TestToggleLogic` | 두 번 토글하면 원래대로, 토글 후 필터 결과 변화 |
+
+## 실행 화면
+
+### 1. 개발 환경
+
+VSCode 터미널에서 Python·Git 버전과 Git 전역 설정을 확인한 화면입니다.
+Python 3.14.4, Git 2.55.0, `user.name` / `user.email`, `init.defaultbranch=main`이
+모두 설정되어 있습니다. 편집기 메뉴가 한국어인 것은 Korean Language Pack이 적용된
+상태입니다.
+
+![개발 환경](docs/screenshots/01-dev-environment.jpg)
+
+### 2. 프로그램 실행
+
+`python prompt_manager.py`로 실행한 메뉴 화면입니다.
+
+![프로그램 실행](docs/screenshots/02-program-run.jpg)
+
+### 3. Git 커밋 그래프
+
+`git log --oneline --graph --all` 출력입니다. `feature/prompt-list`와
+`feature/persistence` 두 브랜치가 `--no-ff`로 병합되어 `|\ … |/` 갈래가 남아 있습니다.
+
+![Git 커밋 그래프](docs/screenshots/03-git-log-graph.jpg)
+
+### 4. GitHub 저장소
+
+원격 저장소 페이지입니다. 커밋 수와 파일 목록, README 렌더링을 확인할 수 있습니다.
+
+![GitHub 저장소](docs/screenshots/04-github-repo.jpg)
 
 ## Git 작업 기록
 
