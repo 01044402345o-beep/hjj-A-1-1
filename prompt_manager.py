@@ -186,6 +186,28 @@ def choose_category():
         print("올바른 번호를 입력해주세요.")
 
 
+def pick_prompt_index(prompts):
+    """프롬프트 번호를 입력받아 0부터 시작하는 인덱스로 변환한다.
+
+    잘못된 입력이면 안내 메시지를 출력하고 None을 반환한다.
+    """
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return None
+
+    choice = input("번호 입력: ").strip()
+    if not choice.isdigit():
+        print("숫자를 입력해주세요.")
+        return None
+
+    index = int(choice) - 1
+    if not 0 <= index < len(prompts):
+        print("존재하지 않는 번호입니다.")
+        return None
+
+    return index
+
+
 # ------------------------------------------------------------ 기능 함수
 
 def add_prompt(prompts):
@@ -236,6 +258,25 @@ def search_prompt(prompts):
     print(f"\n{len(items)}개의 프롬프트를 찾았습니다.")
 
 
+def show_detail(prompts):
+    """프롬프트 하나의 전체 내용을 출력한다."""
+    print("\n=== 프롬프트 상세 보기 ===")
+    index = pick_prompt_index(prompts)
+    if index is None:
+        return
+
+    prompt = prompts[index]
+    line = "─" * 30
+    print(f"\n{line}")
+    print(f"제목: {prompt['title']}")
+    print(f"카테고리: {prompt['category']}")
+    print(f"즐겨찾기: {'⭐' if prompt['favorite'] else '없음'}")
+    print(line)
+    print("내용:")
+    print(prompt["content"])
+    print(line)
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -256,7 +297,9 @@ def main():
             show_by_category(prompts)
         elif choice == "4":
             search_prompt(prompts)
-        elif choice in {"5", "6", "7", "8", "9", "10"}:
+        elif choice == "5":
+            show_detail(prompts)
+        elif choice in {"6", "7", "8", "9", "10"}:
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
