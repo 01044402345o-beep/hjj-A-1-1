@@ -313,6 +313,40 @@ def show_favorites(prompts):
     print(f"\n총 {len(items)}개의 즐겨찾기")
 
 
+# --------------------------------------------------- 보너스: 파일 입출력
+
+def save_to_json(prompts):
+    """현재 프롬프트를 JSON 파일로 저장한다."""
+    print("\n=== JSON 파일로 저장 ===")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(DATA_FILE, "w", encoding="utf-8") as file:
+        json.dump(prompts, file, ensure_ascii=False, indent=2)
+    print(f"{len(prompts)}개의 프롬프트를 {DATA_FILE}에 저장했습니다.")
+
+
+def load_from_json(prompts):
+    """JSON 파일에서 프롬프트를 불러와 현재 목록을 교체한다."""
+    print("\n=== JSON 파일에서 불러오기 ===")
+    if not os.path.exists(DATA_FILE):
+        print("저장된 파일이 없습니다. 먼저 저장해주세요.")
+        return
+
+    try:
+        with open(DATA_FILE, encoding="utf-8") as file:
+            loaded = json.load(file)
+    except (OSError, json.JSONDecodeError):
+        print("파일을 읽을 수 없습니다. 기존 데이터를 유지합니다.")
+        return
+
+    if not isinstance(loaded, list):
+        print("파일 형식이 올바르지 않습니다. 기존 데이터를 유지합니다.")
+        return
+
+    prompts.clear()
+    prompts.extend(loaded)
+    print(f"{len(prompts)}개의 프롬프트를 불러왔습니다.")
+
+
 # ------------------------------------------------------------- 진입점
 
 def main():
@@ -339,7 +373,11 @@ def main():
             toggle_favorite(prompts)
         elif choice == "7":
             show_favorites(prompts)
-        elif choice in {"8", "9", "10"}:
+        elif choice == "8":
+            save_to_json(prompts)
+        elif choice == "9":
+            load_from_json(prompts)
+        elif choice == "10":
             print(f"(아직 구현되지 않은 기능입니다: {choice})")
         else:
             print("올바른 번호를 입력해주세요.")
